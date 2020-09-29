@@ -270,6 +270,22 @@ pub const Termbox = struct {
         self.input_settings = input_settings;
     }
 
+    pub fn setCell(
+        self: *Self,
+        x: usize,
+        y: usize,
+        ch: u21,
+        fg: style.Color,
+        bg: style.Color,
+    ) void {
+        var cell = self.back_buffer.get(x, y);
+        cell.* = .{
+            .fg = @enumToInt(fg),
+            .bg = @enumToInt(bg),
+            .ch = ch,
+        };
+    }
+
     fn updateTermSize(self: *Self) void {
         var sz = std.mem.zeroes(std.os.linux.winsize);
 

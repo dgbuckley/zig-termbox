@@ -24,7 +24,7 @@ pub fn main() !void {
     main: while (try t.pollEvent()) |ev| {
         switch (ev) {
             .Key => break :main,
-            .Mouse => |mouse_ev| t.back_buffer.get(mouse_ev.x, mouse_ev.y).bg = 0x08,
+            .Mouse => |mouse_ev| t.setCell(mouse_ev.x, mouse_ev.y, ' ', .Default, .White),
             else => continue,
         }
         try t.present();
