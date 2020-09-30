@@ -209,7 +209,7 @@ pub const Termbox = struct {
 
                 front.* = back.*;
                 try self.sendAttr(back.fg, back.bg);
-                if (x + w >= self.front_buffer.width) {
+                if (x + w - 1 >= self.front_buffer.width) {
                     var i = x;
                     while (i < self.front_buffer.width) : (i += 1) {
                         try self.sendChar(i, y, ' ');
