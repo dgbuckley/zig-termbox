@@ -170,7 +170,10 @@ pub const Termbox = struct {
                 }
 
                 front.* = back.*;
-                try self.sendAttr(back.fg, back.bg);
+
+                try updateStyle(self.output_buffer.writer(), back.style, self.current_style);
+                self.current_style = back.style;
+
                 if (x + w - 1 >= self.front_buffer.width) {
                     var i = x;
                     while (i < self.front_buffer.width) : (i += 1) {
@@ -237,14 +240,12 @@ pub const Termbox = struct {
         x: usize,
         y: usize,
         ch: u21,
-        fg: style.Color,
-        bg: style.Color,
+        style: Style,
     ) void {
         var cell = self.back_buffer.get(x, y);
         cell.* = .{
-            .fg = @enumToInt(fg),
-            .bg = @enumToInt(bg),
             .ch = ch,
+            .style = style,
         };
     }
 
